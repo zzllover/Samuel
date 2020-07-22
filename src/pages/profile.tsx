@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import Header from './header/header';
 
-export default class Detail extends Component {
-  state = {};
-
+export default class Profile extends Component {
   render() {
     return (
       <div>
         <Header />
-        asd
+        个人主页 +现实个人信息 +我要参与的项目 +我喜欢的
       </div>
     );
   }

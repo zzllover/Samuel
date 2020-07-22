@@ -2,9 +2,7 @@ import React from 'react';
 import ListItem from './list/listItem';
 import Search from './search/search';
 import { Drawer, NavBar, Icon } from 'antd-mobile';
-import logo from '../assets/logo-cat.svg';
-import style from './lists.less';
-import testImg from '../assets/testImg/touxiang.jpg';
+import Header from './header/header';
 
 class Lists extends React.Component {
   constructor(props) {
@@ -22,7 +20,6 @@ class Lists extends React.Component {
 
   render() {
     const sliderbar = <Search />;
-    const navRight = <img src={testImg} className={style.userIcon} />;
     return (
       <div>
         <Drawer
@@ -30,15 +27,10 @@ class Lists extends React.Component {
           open={this.state.open}
           onOpenChange={this.onOpemChange}
         >
-          <div className={style.Nav}>
-            <NavBar
-              icon={<Icon type="search" />}
-              onLeftClick={this.onOpemChange}
-              rightContent={navRight}
-            >
-              <img src={logo} className={style.logoCat} />
-            </NavBar>
-          </div>
+          <Header
+            curPath={this.props.route.path}
+            changeOpen={this.onOpemChange}
+          />
           <div>
             {this.state.contentList.map((item, index) => {
               return <ListItem key={index} />;

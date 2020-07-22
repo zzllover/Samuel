@@ -9,5 +9,6 @@ export default defineConfig({
     { path: '/login', component: '@/pages/login' },
     { path: '/main', component: '@/pages/lists' },
     { path: '/detail', component: '@/pages/detail' },
+    { path: 'profile', component: '@/pages/profile' },
   ],
 });
