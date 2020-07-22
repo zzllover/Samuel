@@ -1,0 +1,97 @@
+.item {
+  margin: 16px;
+  border-bottom: 1px #e8e8e8 solid;
+  .userInfo {
+    display: flex;
+    height: 20px;
+    vertical-align: middle;
+    .userIcon {
+      display: inline-block;
+      height: 20px;
+      img {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+      }
+    }
+    .userName {
+      align-items: center;
+      padding-left: 10px;
+      font-size: 12px;
+      line-height: 20px;
+      color: #67616d;
+    }
+    .channelName {
+      align-items: center;
+      display: inline-block;
+      margin-left: auto;
+      height: 20px;
+      text-align: center;
+      font-size: 12px;
+      line-height: 20px;
+      padding: 0px 10px;
+      color: #8560a9;
+      border: 1px #8560a9 solid;
+      border-radius: 10px;
+    }
+  }
+  .activityName {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  .avtivityTime {
+    height: 20px;
+    font-size: 12px;
+    color: #8560a9;
+    i {
+      font-size: 12px;
+      line-height: 20px;
+    }
+    span {
+      margin-left: 6px;
+      line-height: 20px;
+    }
+  }
+  .activityContent {
+    font-size: 14px;
+    line-height: 1.3;
+    color: #67616d;
+    margin: 12px 0px;
+  }
+  .userOperate {
+    margin-bottom: 18px;
+    font-size: 12px;
+    color: #ac8ec9;
+    > span:first-child {
+      margin-right: 12px;
+    }
+    .iGo {
+      i {
+        color: #aecb4f;
+      }
+      span {
+        color: #453257;
+      }
+    }
+    .iLike {
+      i {
+        color: #ff5c5c;
+      }
+      span {
+        color: #453257;
+      }
+    }
+    .normal,
+    .iGo,
+    .iLike {
+      i {
+        font-size: 12px;
+      }
+      span {
+        margin-left: 3px;
+      }
+    }
+  }
+}
