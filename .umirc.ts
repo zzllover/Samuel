@@ -8,5 +8,6 @@ export default defineConfig({
     { path: '/', redirect: '/login' },
     { path: '/login', component: '@/pages/login' },
     { path: '/main', component: '@/pages/lists' },
+    { path: '/detail', component: '@/pages/detail' },
   ],
 });
