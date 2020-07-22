@@ -1,0 +1,59 @@
+.container {
+  .carouselWraper {
+    margin-left: -20px;
+    > div {
+      display: block;
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      img {
+        border-radius: 8px;
+      }
+    }
+  }
+  .activityContent {
+    margin: 20px;
+    overflow: hidden;
+    position: relative;
+    .viewmore {
+      position: absolute;
+      width: 100%;
+      bottom: 0%;
+      background: linear-gradient(to top, #fff, rgba(255, 255, 255, 0));
+      span {
+        display: inline-block;
+        font-size: 10px;
+        margin-left: 73%;
+        margin-top: 20%;
+        color: #67616d;
+        height: 24px;
+        line-height: 24px;
+        background-color: #d5ef7f;
+        border-radius: 12px;
+        padding: 0px 8px;
+      }
+    }
+  }
+  .when {
+    margin: 20px;
+    padding-top: 20px;
+    border-top: 1px #e8e8e8 solid;
+    .time {
+      width: 100%;
+    }
+  }
+  .where {
+    margin: 20px;
+    padding-top: 20px;
+    border-top: 1px #e8e8e8 solid;
+  }
+  .when,
+  .where {
+    .title {
+      color: #8560a9;
+      font-weight: 400;
+      border-left: 4px #8560a9 solid;
+      padding-left: 5px;
+    }
+  }
+}
