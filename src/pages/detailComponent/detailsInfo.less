@@ -19,7 +19,12 @@
       position: absolute;
       width: 100%;
       bottom: 0%;
-      background: linear-gradient(to top, #fff, rgba(255, 255, 255, 0));
+      background: linear-gradient(
+        to top,
+        rgba(250, 249, 252, 1),
+        rgba(250, 249, 252, 0.7),
+        rgba(255, 255, 255, 0)
+      );
       span {
         display: inline-block;
         font-size: 10px;
@@ -38,14 +43,63 @@
     margin: 20px;
     padding-top: 20px;
     border-top: 1px #e8e8e8 solid;
-    .time {
+    .date {
+      display: flex;
       width: 100%;
+      margin-top: 10px;
+      .startDate {
+        flex: 1;
+        text-align: center;
+        border-right: 1px #e8e8e8 solid;
+        .date1 {
+          i {
+            font-size: 15px;
+            color: #d5ef7f;
+            border-left: 3px #d5ef7f solid;
+            margin-right: 4px;
+          }
+        }
+        .time {
+          color: #aecb4f;
+          font-size: 12px;
+          strong {
+            font-size: 32px;
+            font-weight: 300;
+            margin-right: 5px;
+          }
+        }
+      }
+      .endDate {
+        flex: 1;
+        text-align: center;
+        i {
+          font-size: 15px;
+          color: #d5ef7f;
+          border-right: 3px #d5ef7f solid;
+          margin-right: 4px;
+        }
+      }
     }
   }
   .where {
     margin: 20px;
     padding-top: 20px;
+    padding-bottom: 20px;
     border-top: 1px #e8e8e8 solid;
+    border-bottom: 1px #e8e8e8 solid;
+    .addr {
+      margin-top: 10px;
+      h3 {
+        font-size: 14px;
+        font-weight: 200;
+      }
+    }
+    .pic {
+      img {
+        width: 100%;
+        border-radius: 10px;
+      }
+    }
   }
   .when,
   .where {

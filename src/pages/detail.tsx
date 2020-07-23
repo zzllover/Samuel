@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'umi';
 import Header from './header/header';
 import DetailsInfo from './detailComponent/detailsInfo';
+import LikedGoing from './detailComponent/participants';
+import Comments from './detailComponent/comments';
 import style from './detail.less';
 import testImg from '../assets/testImg/touxiang.jpg';
 
@@ -11,7 +14,7 @@ export default class Detail extends Component {
     return (
       <div>
         <Header />
-        <div>
+        <div className={style.wraper}>
           <div className={style.commonInfo}>
             <span className={style.channelName}>Channel Name</span>
             <div className={style.activityName}>
@@ -27,6 +30,18 @@ export default class Detail extends Component {
               </div>
             </div>
           </div>
+          <div className={style.tabBar}>
+            <Link to="#detailInfo">
+              <span>Details</span>
+            </Link>
+            <Link to="#likedgoing">
+              <span>Participants</span>
+            </Link>
+            <Link to="#likedgoing">
+              {' '}
+              <span>Comments</span>
+            </Link>
+          </div>
           <DetailsInfo
             data1={[
               'AiyWuByWklrrUDlFignR',
@@ -34,6 +49,8 @@ export default class Detail extends Component {
               'IJOtIlfsYdTyaDTRVrLI',
             ]}
           />
+          <LikedGoing />
+          <Comments />
         </div>
       </div>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import ListItem from './list/listItem';
+import { Link } from 'umi';
 import Search from './search/search';
 import { Drawer, NavBar, Icon } from 'antd-mobile';
 import Header from './header/header';
@@ -33,7 +34,11 @@ class Lists extends React.Component {
           />
           <div>
             {this.state.contentList.map((item, index) => {
-              return <ListItem key={index} />;
+              return (
+                <Link to="/detail" key={index}>
+                  <ListItem />
+                </Link>
+              );
             })}
           </div>
         </Drawer>

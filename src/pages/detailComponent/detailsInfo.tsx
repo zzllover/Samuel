@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Carousel } from 'antd-mobile';
 import style from './detailsInfo.less';
+import gmap from '../../assets/gmap.png';
 
 const DetailsInfo = props => {
   const [imgHeight, setImgHeight] = useState('100px');
@@ -56,29 +57,42 @@ const DetailsInfo = props => {
         <div
           className={style.viewmore}
           style={{ display: isHidden ? 'none' : 'block' }}
-          onClick={() => {
-            setIsHidden(!isHidden);
-          }}
         >
-          <span>view more</span>
+          <span
+            onClick={() => {
+              setIsHidden(!isHidden);
+            }}
+          >
+            view more
+          </span>
         </div>
       </div>
       <div className={style.when}>
         <div className={style.title}>When</div>
         <div className={style.date}>
-          <div className={style.satartDate}>
-            <div className={style.date}></div>
-            <div className={style.time}></div>
+          <div className={style.startDate}>
+            <div className={style.date1}>
+              <i className={'iconfont icon-jiantou-right-kuai'}></i>15 April
+              2015
+            </div>
+            <div className={style.time}>
+              <strong>8:30</strong>am
+            </div>
           </div>
-          <div className={style.endDate}></div>
+          <div className={style.endDate}>
+            <i className={'iconfont icon-jiantou-left-kuai'}></i>15 April 2015
+          </div>
         </div>
       </div>
 
       <div className={style.where}>
         <div className={style.title}>Where</div>
-        <div>
+        <div className={style.addr}>
           <strong>Marina Bay Sands</strong>
-          <div>10 Bayfront Ave, S018956</div>
+          <h3>10 Bayfront Ave, S018956</h3>
+        </div>
+        <div className={style.pic}>
+          <img src={gmap} />
         </div>
       </div>
     </div>

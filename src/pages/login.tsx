@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'umi';
 import loginStyle from './login.less';
 import { InputItem } from 'antd-mobile';
 
@@ -40,7 +41,9 @@ class Login extends Component {
             </InputItem>
           </div>
         </div>
-        <button className={loginStyle.login_btn}>SIGN IN</button>
+        <Link to="/main">
+          <button className={loginStyle.login_btn}>SIGN IN</button>
+        </Link>
       </div>
     );
   }
