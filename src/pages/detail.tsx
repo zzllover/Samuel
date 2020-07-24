@@ -7,7 +7,7 @@ import LikedGoing from './detailComponent/participants';
 import Comments from './detailComponent/comments';
 import style from './detail.less';
 import testImg from '../assets/testImg/touxiang.jpg';
-import throttle from './utils/throttle.js';
+import throttle from '../utils/throttle.js';
 
 export default class Detail extends Component {
   constructor(props) {

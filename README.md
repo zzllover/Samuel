@@ -70,5 +70,17 @@ JIRA系统：
     标准工作流workflow：
 
 
+7/24 周会
+
+主题： 网关架构
+    借助Auth admin的token 作为cookie
+
+
+gRPC基于http2服务
+    package：
+    service：
+
+    ssht:[etcdh]
+JIRA系统：
 
 

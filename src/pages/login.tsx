@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'umi';
 import loginStyle from './login.less';
 import { InputItem } from 'antd-mobile';
+import apis from '../services/services';
 
 //先就使用React 实现登录页面
 class Login extends Component {
   constructor(props) {
     super(props);
   }
+
+  login = () => {};
 
   render() {
     return (
@@ -42,7 +45,9 @@ class Login extends Component {
           </div>
         </div>
         <Link to="/main">
-          <button className={loginStyle.login_btn}>SIGN IN</button>
+          <button className={loginStyle.login_btn} onClick={this.login}>
+            SIGN IN
+          </button>
         </Link>
       </div>
     );
