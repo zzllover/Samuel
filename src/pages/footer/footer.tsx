@@ -10,6 +10,10 @@ const Footer = props => {
     props.onClickSend();
   };
 
+  const noticeReply = () => {
+    props.onClickReply();
+  };
+
   return (
     <div className={style.wraper}>
       {isWhich ? (
@@ -17,7 +21,10 @@ const Footer = props => {
           <div className={style.left}>
             <i
               className={'iconfont icon-liuyan'}
-              onClick={() => setIsWhich(!isWhich)}
+              onClick={() => {
+                setIsWhich(!isWhich);
+                noticeReply();
+              }}
             ></i>
             <i className={'iconfont icon-aixin1'}></i>
           </div>
@@ -36,7 +43,9 @@ const Footer = props => {
           <div className={style.releft}>
             <i
               className={'iconfont icon-cha'}
-              onClick={() => setIsWhich(!isWhich)}
+              onClick={() => {
+                setIsWhich(!isWhich);
+              }}
             ></i>
           </div>
           <div className={style.middle}>

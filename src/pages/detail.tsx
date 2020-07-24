@@ -71,6 +71,9 @@ export default class Detail extends Component {
       showToast: !this.state.showToast,
     });
   };
+  handleReply = () => {
+    this.selectWhichTab(2); //点击回复按键时页面跳转到 tab2
+  };
 
   selectWhichTab = (index: Number) => {
     this.setState({
@@ -155,7 +158,10 @@ export default class Detail extends Component {
           />
           <LikedGoing />
           <Comments />
-          <Footer onClickSend={this.handleChangeToast} />
+          <Footer
+            onClickReply={this.handleReply}
+            onClickSend={this.handleChangeToast}
+          />
         </div>
       </div>
     );
