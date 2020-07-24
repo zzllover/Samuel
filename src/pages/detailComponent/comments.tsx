@@ -6,7 +6,7 @@ const Comments = () => {
   const data = [{}, {}];
 
   return (
-    <div className={style.comment}>
+    <div className={style.comment} id={'comment'}>
       {data.map((val, index) => {
         return (
           <div className={style.list} key={index}>

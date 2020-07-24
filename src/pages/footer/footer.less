@@ -1,0 +1,90 @@
+@keyframes fadein {
+  0% {
+    bottom: -65px;
+  }
+  100% {
+    bottom: 0px;
+  }
+}
+@-webkit-keyframes fadein {
+  0% {
+    bottom: -65px;
+  }
+  100% {
+    bottom: 0px;
+  }
+}
+
+.wraper {
+  height: 65px;
+  position: fixed;
+  width: 100%;
+  z-index: 50;
+  animation-name: fadein;
+  -webkit-animation-name: fadein;
+  animation-duration: 0.3s;
+  -webkit-animation-duration: 0.3s;
+  animation-timing-function: linear;
+  -webkit-animation-timing-function: linear;
+  animation-iteration-count: 1; /* 动画只播放一次 */
+  -webkit-animation-iteration-count: 1; /* 动画只播放一次 */
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards; /* Safari 和 Chrome */
+
+  .normal {
+    display: flex;
+    line-height: 65px;
+    .left {
+      width: 55%;
+      background-color: #8560a9;
+      text-align: center;
+      i {
+        font-size: 24px;
+        margin: 0px 15%;
+      }
+    }
+    .right {
+      width: 45%;
+      background-color: #d5ef7f;
+      text-align: center;
+      i {
+        font-size: 16px;
+        margin-right: 10px;
+      }
+    }
+  }
+  .reply {
+    display: flex;
+    line-height: 65px;
+    .releft {
+      width: 10%;
+      background-color: #8560a9;
+      text-align: center;
+      i {
+        display: inline-block;
+        font-size: 16px;
+        color: #d5ef7f;
+      }
+    }
+    .middle {
+      width: 72%;
+      background-color: #8560a9;
+      text-align: center;
+      > div {
+        width: 98%;
+        height: 35px;
+        min-height: 32px;
+        border-radius: 16px;
+        margin-top: 14px;
+      }
+    }
+    .reright {
+      width: 18%;
+      background-color: #d5ef7f;
+      text-align: center;
+      i {
+        font-size: 24px;
+      }
+    }
+  }
+}
