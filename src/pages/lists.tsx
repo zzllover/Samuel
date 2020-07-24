@@ -23,7 +23,7 @@ class Lists extends React.Component {
   render() {
     const sliderbar = <Search />;
     return (
-      <div>
+      <div className={style.main}>
         <Drawer
           sidebar={sliderbar}
           open={this.state.open}

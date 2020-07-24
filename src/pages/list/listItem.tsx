@@ -5,6 +5,10 @@ import testImg from '../..//assets/testImg/touxiang.jpg';
 export default class ListItem extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      liked: true,
+      going: true,
+    };
   }
 
   render() {
@@ -30,12 +34,21 @@ export default class ListItem extends Component {
           potenti...
         </div>
         <div className={style.userOperate}>
-          <span className={style.normal}>
-            <i className={'iconfont icon-duigou_kuai'}></i>{' '}
-            <span>I am going</span>
+          <span className={this.state.going ? style.iGo : style.normal}>
+            <i
+              className={
+                'iconfont' + (this.state.going ? ' icon-yes2' : ' icon-gou')
+              }
+            />
+            <span>{this.state.going ? 'I am going' : '6 going'}</span>
           </span>
-          <span className={style.normal}>
-            <i className={'iconfont icon-aixin'}></i> <span>I like it</span>
+          <span className={this.state.liked ? style.iLike : style.normal}>
+            <i
+              className={
+                'iconfont' + (this.state.liked ? ' icon-aixin' : ' icon-aixin1')
+              }
+            />
+            <span>{this.state.liked ? 'I like it' : '6 liked'}</span>
           </span>
         </div>
       </div>
