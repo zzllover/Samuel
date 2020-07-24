@@ -4,6 +4,7 @@ import { Link } from 'umi';
 import Search from './search/search';
 import { Drawer, NavBar, Icon } from 'antd-mobile';
 import Header from './header/header';
+import style from './lists.less';
 
 class Lists extends React.Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class Lists extends React.Component {
             curPath={this.props.route.path}
             changeOpen={this.onOpemChange}
           />
-          <div>
+          <div className={style.container}>
             {this.state.contentList.map((item, index) => {
               return (
                 <Link to="/detail" key={index}>

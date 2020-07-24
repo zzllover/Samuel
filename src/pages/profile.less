@@ -1,7 +1,11 @@
 .main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   .top {
     padding: 30px 0px;
     border-bottom: 1px #e8e8e8 solid;
+    height: 220px;
     .userpic {
       text-align: center;
       img {
@@ -28,6 +32,13 @@
       i {
         margin-right: 5px;
       }
+    }
+  }
+  .bottom {
+    background-color: #fafafa;
+    flex: 1;
+    .tabWraper {
+      height: 100%;
     }
   }
 }

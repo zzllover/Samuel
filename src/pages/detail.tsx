@@ -6,9 +6,41 @@ import LikedGoing from './detailComponent/participants';
 import Comments from './detailComponent/comments';
 import style from './detail.less';
 import testImg from '../assets/testImg/touxiang.jpg';
+import throttle from './utils/throttle.js';
 
 export default class Detail extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.tabBar = React.createRef();
+  }
+
+  componentDidMount() {
+    this.windowOnScroll();
+  }
+
+  windowOnScroll() {
+    let _this = this;
+    const s = _this.tabBar.current.offsetTop;
+    const throttled = throttle(
+      function() {
+        let h = document.body.scrollTop || document.documentElement.scrollTop;
+        if (s - h <= 45) {
+          if (_this.tabBar.current !== null) {
+            _this.tabBar.current.style.position = 'sticky';
+            _this.tabBar.current.style.top = '45px';
+          }
+        } else {
+          if (_this.tabBar.current !== null) {
+            _this.tabBar.current.style.position = 'relative';
+            _this.tabBar.current.style.top = '';
+          }
+        }
+      },
+      50,
+      false,
+    );
+    window.onscroll = throttled;
+  }
 
   render() {
     return (
@@ -30,7 +62,8 @@ export default class Detail extends Component {
               </div>
             </div>
           </div>
-          <div className={style.tabBar}>
+
+          <div className={style.tabBar} ref={this.tabBar}>
             <Link to="#detailInfo">
               <span>Details</span>
             </Link>
