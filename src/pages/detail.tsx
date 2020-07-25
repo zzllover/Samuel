@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Toast from './toast/toast';
+import { Toast } from 'antd-mobile';
+import { history } from 'umi';
 import Header from './header/header';
 import Footer from './footer/footer';
 import DetailsInfo from './detailComponent/detailsInfo';
@@ -8,6 +9,8 @@ import Comments from './detailComponent/comments';
 import style from './detail.less';
 import testImg from '../assets/testImg/touxiang.jpg';
 import throttle from '../utils/throttle.js';
+import apis from '../services/services';
+import { getToken } from '../utils/useToken';
 
 export default class Detail extends Component {
   constructor(props) {
@@ -19,7 +22,84 @@ export default class Detail extends Component {
     this.state = {
       showToast: false,
       active: 0,
+      name: '',
+      channel: {},
+      creator: {},
+      images: [],
+      description: '',
+      begin_time: '2020-07-24T23:14:55.147Z',
+      end_time: '2020-07-24T23:14:55.147Z',
+      location: '',
+      location_detail: '',
+      participants: [],
+      eventLiker: [],
+      comments: [],
+      me_going: true,
+      me_likes: true,
     };
+  }
+
+  getParticipants = async (id: String) => {
+    let token = getToken();
+    let res = await apis.Events.getParticipants(id, token);
+    res.json().then(data => {
+      this.setState({
+        participants: data.users,
+      });
+    });
+  };
+
+  getEventLiker = async (id: String) => {
+    let token = getToken();
+    let res = await apis.Events.getEventLiker(id, null, token);
+    res.json().then(data => {
+      this.setState({
+        eventLiker: data.users,
+      });
+    });
+  };
+
+  getComments = async (id: String) => {
+    let token = getToken();
+    let res = await apis.Events.getComments(id, null, token);
+    res.json().then(data => {
+      this.setState({
+        comments: data.comments,
+      });
+    });
+  };
+
+  getEventById = async (id: String) => {
+    let token = getToken();
+    let res = await apis.Events.getEvent(id, token);
+    res.json().then(data => {
+      this.setState({
+        name: data.event.name,
+        channel: data.event.channel,
+        creator: data.event.creator,
+        images: data.event.images,
+        description: data.event.description,
+        begin_time: data.event.begin_time,
+        end_time: data.event.end_time,
+        location: data.event.location,
+        location_detail: data.event.location_detail,
+        me_going: data.event.me_going,
+        me_likes: data.event.me_likes,
+      });
+    });
+  };
+
+  componentWillMount() {
+    const eventId = this.props.location.query.eventid;
+    console.log(eventId);
+    if (eventId == undefined) {
+      history.push('/main');
+      return;
+    }
+    this.getEventById(eventId);
+    this.getParticipants(eventId);
+    this.getEventLiker(eventId);
+    this.getComments(eventId);
   }
 
   componentDidMount() {
@@ -71,8 +151,54 @@ export default class Detail extends Component {
       showToast: !this.state.showToast,
     });
   };
+
+  handleChangeLike = async () => {
+    let token = getToken();
+    const eventId = this.props.location.query.eventid;
+    if (this.state.me_likes) {
+      //已点赞，则取消
+      await apis.Events.unlikeEvent(eventId, token);
+    } else {
+      await apis.Events.likeEvent(eventId, token);
+    }
+    this.getEventById(eventId);
+
+    this.getEventLiker(eventId);
+  };
+
+  handleChangeGoing = async () => {
+    let token = getToken();
+    const eventId = this.props.location.query.eventid;
+    if (this.state.me_going) {
+      //已点赞，则取消
+      await apis.Events.leaveEvent(eventId, token);
+    } else {
+      await apis.Events.participateEvent(eventId, token);
+    }
+    this.getEventById(eventId);
+    this.getParticipants(eventId);
+  };
+
   handleReply = () => {
-    this.selectWhichTab(2); //点击回复按键时页面跳转到 tab2
+    this.scrollToBottom();
+  };
+
+  commentEvent = async (id: String, comment: String) => {
+    let token = getToken();
+    await apis.Events.commentEvent(id, comment, token);
+  };
+
+  handleSend = (val: String) => {
+    //发表评论
+    //console.log(val)
+    if (val.trim().length === 0) {
+      Toast.fail('Do not reply with empty content', 1);
+      return;
+    }
+    const eventId = this.props.location.query.eventid;
+    this.commentEvent(eventId, val);
+    this.getComments(eventId);
+    this.scrollToBottom();
   };
 
   selectWhichTab = (index: Number) => {
@@ -99,6 +225,21 @@ export default class Detail extends Component {
     }
   };
 
+  scrollToBottom = () => {
+    setTimeout(() => {
+      if (this.state.comments.length !== 0) {
+        let last = this.box2.children[this.box2.children.length - 1];
+        //window.scrollTo(0, div1.scrollHeight + 200);
+        last.scrollIntoView({
+          block: 'start',
+          behavior: 'smooth',
+        });
+      } else {
+        this.selectWhichTab(2);
+      }
+    }, 300);
+  };
+
   render() {
     const tabs1 = [
       { icon: 'iconfont icon-zhuyi', name: 'Details' },
@@ -111,16 +252,16 @@ export default class Detail extends Component {
         <Header />
         <div className={style.wraper}>
           <div className={style.commonInfo}>
-            <span className={style.channelName}>Channel Name</span>
-            <div className={style.activityName}>
-              Activity Title Name Make it Longer May Longer than One Line
-            </div>
+            <span className={style.channelName}>{this.state.channel.name}</span>
+            <div className={style.activityName}>{this.state.name}</div>
             <div className={style.user}>
               <div className={style.usericon}>
-                <img src={testImg} />
+                <img src={this.state.creator.avatar} />
               </div>
               <div className={style.text}>
-                <div className={style.username}>Username</div>
+                <div className={style.username}>
+                  {this.state.creator.username}
+                </div>
                 <div className={style.publishtime}>Published 2 days ago</div>
               </div>
             </div>
@@ -150,17 +291,25 @@ export default class Detail extends Component {
             />
           ) : null}
           <DetailsInfo
-            data1={[
-              'AiyWuByWklrrUDlFignR',
-              'TekJlZRVCjLFexlOCuWn',
-              'IJOtIlfsYdTyaDTRVrLI',
-            ]}
+            data1={this.state.images}
+            description={this.state.description}
+            begin_time={this.state.begin_time}
+            end_time={this.state.end_time}
+            location={this.state.location}
+            location_detail={this.state.location_detail}
           />
-          <LikedGoing />
-          <Comments />
+          <LikedGoing
+            participants={this.state.participants}
+            eventLiker={this.state.eventLiker}
+          />
+          <Comments commentLists={this.state.comments} />
           <Footer
             onClickReply={this.handleReply}
-            onClickSend={this.handleChangeToast}
+            onClickSend={this.handleSend}
+            onClickLike={this.handleChangeLike}
+            onClickGoing={this.handleChangeGoing}
+            me_going={this.state.me_going}
+            me_likes={this.state.me_likes}
           />
         </div>
       </div>

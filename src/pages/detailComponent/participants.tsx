@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import style from './participants.less';
-import testImg from '../../assets/testImg/touxiang.jpg';
+//import testImg from '../../assets/testImg/touxiang.jpg';
 import moreIcon from '../../assets/icons/more.svg';
 
-const LikedGoing = () => {
-  const data1 = [{}, {}, {}, {}, {}, {}, {}, {}];
-  const data2 = [{}, {}, {}, {}, {}, {}, {}];
+const LikedGoing = props => {
   const [more1, setMore1] = useState(true);
   const [more2, setMore2] = useState(true);
 
@@ -14,14 +12,14 @@ const LikedGoing = () => {
       <div className={style.liked}>
         <div className={style.text}>
           <i className={'iconfont icon-gou'} />
-          34 going
+          {props.participants.length + ' going'}
         </div>
         <div className={style.usericon}>
-          {data1.length >= 8 && more1
+          {props.participants.length >= 8 && more1
             ? [
-                data1.slice(0, 6).map((val, index) => {
+                props.participants.slice(0, 6).map((val, index) => {
                   return (
-                    <img src={testImg} key={index} className={style.icon} />
+                    <img src={val.avatar} key={index} className={style.icon} />
                   );
                 }),
                 <img
@@ -33,22 +31,25 @@ const LikedGoing = () => {
                   }}
                 />,
               ]
-            : data1.map((val, index) => {
-                return <img src={testImg} key={index} className={style.icon} />;
+            : props.participants.map((val, index) => {
+                return (
+                  <img src={val.avatar} key={index} className={style.icon} />
+                );
               })}
         </div>
       </div>
       <div className={style.going}>
         <div className={style.text}>
-          <i className={'iconfont icon-aixin1'} /> 7 likes
+          <i className={'iconfont icon-aixin1'} />{' '}
+          {props.eventLiker.length + ' likes'}
         </div>
         <div className={style.usericon}>
           {' '}
-          {data2.length >= 8 && more2
+          {props.eventLiker.length >= 8 && more2
             ? [
-                data2.slice(0, 6).map((val, index) => {
+                props.eventLiker.slice(0, 6).map((val, index) => {
                   return (
-                    <img src={testImg} key={index} className={style.icon} />
+                    <img src={val.avatar} key={index} className={style.icon} />
                   );
                 }),
                 <img
@@ -60,8 +61,10 @@ const LikedGoing = () => {
                   }}
                 />,
               ]
-            : data2.map((val, index) => {
-                return <img src={testImg} key={index} className={style.icon} />;
+            : props.eventLiker.map((val, index) => {
+                return (
+                  <img src={val.avatar} key={index} className={style.icon} />
+                );
               })}
         </div>
       </div>

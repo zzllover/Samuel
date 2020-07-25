@@ -7,6 +7,8 @@ import NoActivity from './noresult/noAcitvity';
 import { StickyContainer, Sticky } from 'react-sticky';
 import style from './profile.less';
 import testImg from '../assets/testImg/touxiang.jpg';
+import { getToken } from '../utils/useToken';
+import apis from '../services/services';
 
 function renderTabBar(props) {
   return (
@@ -21,13 +23,66 @@ function renderTabBar(props) {
 }
 
 export default class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      avatar: '',
+      email: '',
+      liked: [],
+      going: [],
+      past: [],
+    };
+  }
+
+  getUser = async () => {
+    let token = getToken();
+    let res = await apis.Users.getUser(token);
+    res.json().then(data => {
+      console.log(data);
+      this.setState({
+        username: data.username,
+        avatar: data.avatar,
+        email: data.email,
+      });
+    });
+  };
+
+  getUserEvents = async (type: String) => {
+    let token = getToken();
+    let res = await apis.Users.getUserEvents({ type: type }, token);
+    res.json().then(data => {
+      console.log(data.events);
+      if (type === 'liked') {
+        this.setState({
+          liked: data.events,
+        });
+      } else if (type === 'going') {
+        this.setState({
+          going: data.events,
+        });
+      } else {
+        this.setState({
+          past: data.events,
+        });
+      }
+    });
+  };
+
+  componentWillMount() {
+    this.getUser();
+    this.getUserEvents('liked');
+    this.getUserEvents('going');
+    this.getUserEvents('past');
+  }
+
   render() {
     const tabs = [
       {
         title: (
           <span className={style.tabtitle}>
             <i className={'iconfont icon-aixin1'}></i>
-            <span>12 liked</span>
+            <span>{this.state.liked.length + ' liked'}</span>
           </span>
         ),
       },
@@ -35,7 +90,7 @@ export default class Profile extends Component {
         title: (
           <span className={style.tabtitle}>
             <i className={'iconfont icon-gou'}></i>
-            <span>12 going</span>
+            <span>{this.state.going.length + ' going'}</span>
           </span>
         ),
       },
@@ -43,35 +98,30 @@ export default class Profile extends Component {
         title: (
           <span className={style.tabtitle}>
             <i className={'iconfont icon-xiongzhang'}></i>
-            <span>0 past</span>
+            <span>{this.state.past.length + ' past'}</span>
           </span>
         ),
       },
     ];
 
-    const data1 = [{}, {}, {}];
-    const data2 = [];
-    const data3 = [{}];
-
     return (
       <div>
-        <Header />
+        <Header fixed1={true} />
 
         <div className={style.main}>
           <div className={style.top}>
             <div className={style.userpic}>
-              <img src={testImg} alt="" />
+              <img src={this.state.avatar} alt="" />
             </div>
-            <div className={style.username}>Username</div>
+            <div className={style.username}>{this.state.username} </div>
             <div className={style.useremail}>
               <i className={'iconfont icon-email'}></i>
-              <span>ximing.peng@shopee.com</span>
+              <span>{this.state.email}</span>
             </div>
           </div>
-
-          <div className={style.bottom}>
-            <div className={style.tabWraper}>
-              <StickyContainer>
+          <StickyContainer>
+            <div className={style.bottom}>
+              <div className={style.tabWraper}>
                 <Tabs
                   tabs={tabs}
                   renderTabBar={renderTabBar}
@@ -94,13 +144,17 @@ export default class Profile extends Component {
                     }}
                   >
                     <div className={style.container}>
-                      {data1.map((item, index) => {
-                        return (
-                          <Link to="/detail" key={index}>
-                            <ListItem />
-                          </Link>
-                        );
-                      })}
+                      {this.state.liked.length !== 0 ? (
+                        this.state.liked.map((item, index) => {
+                          return (
+                            <Link to={`/detail?eventid=${item.id}`} key={index}>
+                              <ListItem item={item} />
+                            </Link>
+                          );
+                        })
+                      ) : (
+                        <NoActivity />
+                      )}
                     </div>
                   </div>
                   <div
@@ -111,17 +165,19 @@ export default class Profile extends Component {
                       height: '100%',
                     }}
                   >
-                    {data2.length !== 0 ? (
-                      data2.map((item, index) => {
-                        return (
-                          <Link to="/detail" key={index}>
-                            <ListItem />
-                          </Link>
-                        );
-                      })
-                    ) : (
-                      <NoActivity />
-                    )}
+                    <div className={style.container}>
+                      {this.state.going.length !== 0 ? (
+                        this.state.going.map((item, index) => {
+                          return (
+                            <Link to={`/detail?eventid=${item.id}`} key={index}>
+                              <ListItem item={item} />
+                            </Link>
+                          );
+                        })
+                      ) : (
+                        <NoActivity />
+                      )}
+                    </div>
                   </div>
                   <div
                     style={{
@@ -131,22 +187,24 @@ export default class Profile extends Component {
                       height: '100%',
                     }}
                   >
-                    {data3.length !== 0 ? (
-                      data3.map((item, index) => {
-                        return (
-                          <Link to="/detail" key={index}>
-                            <ListItem />
-                          </Link>
-                        );
-                      })
-                    ) : (
-                      <NoActivity />
-                    )}
+                    <div className={style.container}>
+                      {this.state.past.length !== 0 ? (
+                        this.state.past.map((item, index) => {
+                          return (
+                            <Link to={`/detail?eventid=${item.id}`} key={index}>
+                              <ListItem item={item} />
+                            </Link>
+                          );
+                        })
+                      ) : (
+                        <NoActivity />
+                      )}
+                    </div>
                   </div>
                 </Tabs>
-              </StickyContainer>
+              </div>
             </div>
-          </div>
+          </StickyContainer>
         </div>
       </div>
     );

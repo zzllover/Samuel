@@ -1,16 +1,50 @@
 import React, { Component } from 'react';
-import { Link } from 'umi';
+import { history } from 'umi';
 import loginStyle from './login.less';
-import { InputItem } from 'antd-mobile';
+import { InputItem, Toast } from 'antd-mobile';
 import apis from '../services/services';
+import { saveToken } from '../utils/useToken';
 
+// function failToast() {
+//   Toast.fail('Load failed !!!', 1);
+// }
 //先就使用React 实现登录页面
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      username: '',
+      password: '',
+    };
   }
 
-  login = () => {};
+  login = async () => {
+    let res = await apis.auth.auth({
+      username: this.state.username,
+      password: this.state.password,
+    });
+    res.json().then(data => {
+      if (data.token !== undefined) {
+        saveToken(data.token);
+        Toast.success('Load success !!!', 1);
+        history.push('/main');
+      } else {
+        Toast.fail(data.error, 1);
+      }
+    });
+  };
+
+  handleUsername = username => {
+    this.setState({
+      username,
+    });
+  };
+
+  handlePassword = password => {
+    this.setState({
+      password,
+    });
+  };
 
   render() {
     return (
@@ -36,19 +70,25 @@ class Login extends Component {
             </svg>
           </div>
           <div className={loginStyle.input}>
-            <InputItem>
+            <InputItem
+              value={this.state.username}
+              onChange={this.handleUsername}
+            >
               <div className={loginStyle.iconimg1}></div>
             </InputItem>
-            <InputItem type="password">
+            <InputItem
+              type="password"
+              value={this.state.password}
+              onChange={this.handlePassword}
+            >
               <div className={loginStyle.iconimg2}></div>
             </InputItem>
           </div>
         </div>
-        <Link to="/main">
-          <button className={loginStyle.login_btn} onClick={this.login}>
-            SIGN IN
-          </button>
-        </Link>
+
+        <button className={loginStyle.login_btn} onClick={this.login}>
+          SIGN IN
+        </button>
       </div>
     );
   }

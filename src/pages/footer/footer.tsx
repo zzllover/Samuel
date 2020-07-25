@@ -4,14 +4,24 @@ import style from './footer.less';
 import { useState, useEffect } from 'react';
 
 const Footer = props => {
-  const [isWhich, setIsWhich] = useState(false);
+  const [isWhich, setIsWhich] = useState(true);
+  const [inputVal, setInputVal] = useState('');
 
   const noticeClickSend = () => {
-    props.onClickSend();
+    props.onClickSend(inputVal);
+    setInputVal('');
+  };
+
+  const noticeGoing = () => {
+    props.onClickGoing();
   };
 
   const noticeReply = () => {
     props.onClickReply();
+  };
+
+  const noticeLike = () => {
+    props.onClickLike();
   };
 
   return (
@@ -26,16 +36,35 @@ const Footer = props => {
                 noticeReply();
               }}
             ></i>
-            <i className={'iconfont icon-aixin1'}></i>
+            {
+              <i
+                onClick={noticeLike}
+                className={
+                  'iconfont ' + (props.me_likes ? 'icon-aixin' : 'icon-aixin1')
+                }
+                style={{ color: props.me_likes ? '#FF5C5C' : '#000' }}
+              />
+            }
           </div>
           <div
             className={style.right}
-            onClick={() => {
-              noticeClickSend();
-            }}
+            style={{ backgroundColor: props.me_going ? '#bababa' : '#d5ef7f' }}
+            onClick={noticeGoing}
           >
-            <i className={'iconfont icon-gou'}></i>
-            <span>Join</span>
+            {props.me_going ? (
+              <>
+                <i
+                  className={'iconfont icon-yes2'}
+                  style={{ color: '#AECB4F' }}
+                ></i>
+                <span>I am going</span>
+              </>
+            ) : (
+              <>
+                <i className={'iconfont icon-gou'}></i>
+                <span>Join</span>
+              </>
+            )}
           </div>
         </div>
       ) : (
@@ -49,7 +78,13 @@ const Footer = props => {
             ></i>
           </div>
           <div className={style.middle}>
-            <InputItem placeholder="Leave your comment here" />
+            <InputItem
+              placeholder="Leave your comment here"
+              value={inputVal}
+              onChange={val => {
+                setInputVal(val);
+              }}
+            />
           </div>
           <div
             className={style.reright}

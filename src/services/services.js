@@ -4,7 +4,7 @@ let defaultToken;
 
 const makeUrl = (url, params) => {
   //   if (!params) return `/api/v1${url}`
-  if (!params) return `${url}`;
+  if (!params) return `/api/v1${url}`;
 
   const keys = Object.keys(params);
   const usp = new URLSearchParams();
@@ -17,7 +17,7 @@ const makeUrl = (url, params) => {
   );
 
   //   return `/api/v1${url}?${usp.toString()}`
-  return `${url}?${usp.toString()}`;
+  return `/api/v1${url}?${usp.toString()}`;
 };
 
 const makeApi = ({ url, method, data, token, headers }) => {

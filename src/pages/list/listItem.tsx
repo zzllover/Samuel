@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 import style from './listItem.less';
+import { timeToShow } from '../../utils/_time';
 import testImg from '../..//assets/testImg/touxiang.jpg';
 
 export default class ListItem extends Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
+    console.log(this.props.item);
     this.state = {
-      liked: true,
-      going: true,
+      liked: this.props.item.me_likes,
+      going: this.props.item.me_going,
+      likes_count: this.props.item.likes_count,
+      goings_count: this.props.item.goings_count,
+      ...this.props.item.creator,
+      ...this.props.item.channel,
+      beginTime: timeToShow(this.props.item.begin_time),
+      endTime: timeToShow(this.props.item.end_time),
+      description:
+        this.props.item.description.length > 200
+          ? this.props.item.description.slice(0, 200) + '......'
+          : this.props.item.description,
     };
   }
 
@@ -16,23 +28,17 @@ export default class ListItem extends Component {
       <div className={style.item}>
         <div className={style.userInfo}>
           <span className={style.userIcon}>
-            <img src={testImg} />
+            <img src={this.state.avatar} />
           </span>
-          <span className={style.userName}>username</span>
-          <span className={style.channelName}>channel name</span>
+          <span className={style.userName}>{this.state.username}</span>
+          <span className={style.channelName}>{this.state.name}</span>
         </div>
-        <div className={style.activityName}>
-          Activity Title Name Make it Longer May Longer than One Line
-        </div>
+        <div className={style.activityName}>{this.props.item.name}</div>
         <div className={style.avtivityTime}>
           <i className={'iconfont icon-time'}></i>
-          <span>14 may 201612:22 - 14 may 2016 18:00</span>
+          <span>{this.state.beginTime + ' - ' + this.state.endTime}</span>
         </div>
-        <div className={style.activityContent}>
-          [No longer than 300 chars] Vivamus sagittis, diam in lobortis, sapien
-          arcu mattis erat, vel aliquet sem urna et risus. Ut feugiat sapien mi
-          potenti...
-        </div>
+        <div className={style.activityContent}>{this.state.description}</div>
         <div className={style.userOperate}>
           <span className={this.state.going ? style.iGo : style.normal}>
             <i
@@ -40,7 +46,11 @@ export default class ListItem extends Component {
                 'iconfont' + (this.state.going ? ' icon-yes2' : ' icon-gou')
               }
             />
-            <span>{this.state.going ? 'I am going' : '6 going'}</span>
+            <span>
+              {this.state.going
+                ? 'I am going'
+                : this.state.goings_count + ' going'}
+            </span>
           </span>
           <span className={this.state.liked ? style.iLike : style.normal}>
             <i
@@ -48,7 +58,11 @@ export default class ListItem extends Component {
                 'iconfont' + (this.state.liked ? ' icon-aixin' : ' icon-aixin1')
               }
             />
-            <span>{this.state.liked ? 'I like it' : '6 liked'}</span>
+            <span>
+              {this.state.liked
+                ? 'I like it'
+                : this.state.likes_count + ' liked'}
+            </span>
           </span>
         </div>
       </div>

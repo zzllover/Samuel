@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Carousel } from 'antd-mobile';
 import style from './detailsInfo.less';
 import gmap from '../../assets/gmap.png';
+import { timeToShow } from '../../utils/_time';
 
 const DetailsInfo = props => {
   const [imgHeight, setImgHeight] = useState('100px');
@@ -12,48 +13,46 @@ const DetailsInfo = props => {
     <div id={'detailInfo'} className={style.container}>
       <div className={style.carouselWraper}>
         <div>
-          <Carousel
-            className="space-carousel"
-            frameOverflow="visible"
-            cellSpacing={10}
-            slideWidth={0.8}
-            dots={false}
-          >
-            {props.data1.map((val, index) => (
-              <a
-                key={val}
-                href="#"
-                style={{
-                  display: 'block',
-                  position: 'relative',
-                  height: imgHeight,
-                }}
-              >
-                <img
-                  src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
-                  alt=""
-                  style={{ width: '100%', verticalAlign: 'top' }}
-                  onLoad={() => {
-                    window.dispatchEvent(new Event('resize'));
-                    setImgHeight('auto');
+          {props.data1.length === 0 ? (
+            ''
+          ) : (
+            <Carousel
+              className="space-carousel"
+              frameOverflow="visible"
+              cellSpacing={8}
+              slideWidth={0.6}
+              dots={false}
+            >
+              {props.data1.map((val, index) => (
+                <a
+                  key={val}
+                  href="#"
+                  style={{
+                    display: 'block',
+                    position: 'relative',
+                    height: imgHeight,
                   }}
-                />
-              </a>
-            ))}
-          </Carousel>
+                >
+                  <img
+                    src={val}
+                    alt=""
+                    style={{ width: '100%', verticalAlign: 'top' }}
+                    onLoad={() => {
+                      window.dispatchEvent(new Event('resize'));
+                      setImgHeight('auto');
+                    }}
+                  />
+                </a>
+              ))}
+            </Carousel>
+          )}
         </div>
       </div>
       <div
         className={style.activityContent}
         style={{ height: isHidden ? 'auto' : '150px' }}
       >
-        [No longer than 300 chars] Vivamus sagittis, diam in lobortis, sapien
-        arcu mattis erat, vel aliquet sem urna et risus. Ut feugiat sapien mi
-        potenti. Maecenas et enim odio. Nullam massa metus, varius quis vehicula
-        sed, pharetra mollis erat. In quis viverra velit. Vivamus placerat, est
-        nec hendrerit varius, enim dui hendrerit magna, ut pulvinar nibh lorem
-        vel lacus. Mauris a orci iaculis, hendrerit eros sed, gravida leo. In
-        dictum mauris vel augue varius there is south north asim
+        {props.description}
         <div
           className={style.viewmore}
           style={{ display: isHidden ? 'none' : 'block' }}
@@ -72,15 +71,16 @@ const DetailsInfo = props => {
         <div className={style.date}>
           <div className={style.startDate}>
             <div className={style.date1}>
-              <i className={'iconfont icon-jiantou-right-kuai'}></i>15 April
-              2015
+              <i className={'iconfont icon-jiantou-right-kuai'}></i>
+              {timeToShow(props.begin_time)}
             </div>
             <div className={style.time}>
               <strong>8:30</strong>am
             </div>
           </div>
           <div className={style.endDate}>
-            <i className={'iconfont icon-jiantou-left-kuai'}></i>15 April 2015
+            <i className={'iconfont icon-jiantou-left-kuai'}></i>
+            {timeToShow(props.end_time)}
           </div>
         </div>
       </div>
@@ -88,8 +88,8 @@ const DetailsInfo = props => {
       <div className={style.where}>
         <div className={style.title}>Where</div>
         <div className={style.addr}>
-          <strong>Marina Bay Sands</strong>
-          <h3>10 Bayfront Ave, S018956</h3>
+          <strong>{props.location}</strong>
+          <h3>{props.location_detail}</h3>
         </div>
         <div className={style.pic}>
           <img src={gmap} />

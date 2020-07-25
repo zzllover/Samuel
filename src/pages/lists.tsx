@@ -5,15 +5,33 @@ import Search from './search/search';
 import { Drawer, NavBar, Icon } from 'antd-mobile';
 import Header from './header/header';
 import style from './lists.less';
+import apis from '../services/services';
+import { getToken } from '../utils/useToken';
 
 class Lists extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      contentList: [{}, {}, {}, {}],
+      contentList: [],
     };
   }
+
+  getEvents = async () => {
+    let token = getToken();
+    let res = await apis.Events.getEvents(null, token);
+    res.json().then(data => {
+      //console.log(data)
+      this.setState({
+        contentList: data.events,
+      });
+    });
+  };
+
+  componentWillMount() {
+    this.getEvents();
+  }
+
   onOpemChange = (...args) => {
     this.setState({
       open: !this.state.open,
@@ -36,8 +54,8 @@ class Lists extends React.Component {
           <div className={style.container}>
             {this.state.contentList.map((item, index) => {
               return (
-                <Link to="/detail" key={index}>
-                  <ListItem />
+                <Link to={`/detail?eventid=${item.id}`} key={index}>
+                  <ListItem item={item} />
                 </Link>
               );
             })}
